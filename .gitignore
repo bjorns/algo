@@ -3,3 +3,4 @@ redblack.png
 redblack.dot
 redblack
 .DS_Store
+*.pyc
