@@ -4,3 +4,5 @@ redblack.dot
 redblack
 .DS_Store
 *.pyc
+*.dot
+*.pdf

@@ -1,6 +1,6 @@
 # coding=utf-8
 import sys
-from graph import Node, Edge, parse
+from graph import Node, Edge, parse, graphviz
 
 def cheapest(frontier):
     lowest = -1
@@ -48,3 +48,5 @@ if __name__ == '__main__':
     result = dijkstra(nodes[start_node], set(nodes.values()))
     for node in result:
         print "{}: {}".format(node.name, node.cost)
+
+    graphviz(filename.replace('.txt', '.dot'), result)
