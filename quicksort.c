@@ -47,18 +47,14 @@ int partition(int* data, int l, int u) {
 	return left;
 }
 
-void quicksort_recursive(int* data, int l, int u) {
+void quicksort(int* data, int l, int u) {
 	if (l >= u)
 		return;
 	
 	int midpoint = partition(data, l, u);
 	
-	quicksort_recursive(data, l, midpoint - 1);
-	quicksort_recursive(data, midpoint + 1, u);
-}
-
-void quicksort(int* data, int l, int u) {
-	quicksort_recursive(data, l, u);
+	quicksort(data, l, midpoint - 1);
+	quicksort(data, midpoint + 1, u);
 }
 
 int main(int argc, char** argv) {
