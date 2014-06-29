@@ -14,7 +14,8 @@ def cheapest(frontier, graph):
 
 
 def dijkstra(start, graph):
-    """ Returns a set of all nodes in the graph. """
+    """ Returns a set of all nodes in the graph
+        connected to the start node. """
     ret = set() # The set 'W' to be returned.
     frontier = set() # All edges crossing into unchecked.
     start.cost = 0
@@ -22,18 +23,18 @@ def dijkstra(start, graph):
         frontier.add(e)
     graph.remove(start)
     ret.add(start)
-    while len(graph) > 0:
+    while True:
         edge = cheapest(frontier, graph)
-        if edge is None:
-            break
+        if not edge:
+            break;
+
         frontier.remove(edge)
 
         next_node = edge.dst
         next_node.cost = edge.src.cost + edge.cost
 
         for e in next_node.edges:
-            if e.dst in graph:
-                frontier.add(e)
+            frontier.add(e)
 
         graph.remove(next_node)
         ret.add(next_node)
@@ -42,7 +43,7 @@ def dijkstra(start, graph):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "Usage ./dijkstra <input-file> <start-node>"
+        print "Usage ./dijkstra <start-node> [<input-file>]"
         sys.exit(0)
     start_node = sys.argv[1]
     if len(sys.argv) < 3:
