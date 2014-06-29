@@ -1,4 +1,8 @@
  # coding=utf-8
+import random
+from datetime import datetime
+
+random.seed(datetime.now())
 
 class Node(object):
     """ Vertex in graph. """
@@ -34,6 +38,33 @@ def _parse_line(line):
     return src, cost, dst
 
 
+def generate_nodes(size, nodenames):
+    nodes = dict()
+    size = min(size, len(nodenames))
+    print "Generating graph of size %s" % size
+    for i in range(size):
+        node = Node(nodenames[i])
+        nodes[node.name] = node
+    return nodes
+
+
+def generate_edges(graph, nodenames):
+    size = len(graph)
+    for src in graph.values():
+        for i in range(random.randint(1, 2)):
+            j = random.randint(0, size-1)
+            dst_name = nodenames[j]
+            dst = graph[dst_name]
+            cost = random.randint(1, 20)
+            edge = Edge(src, cost, dst)
+            src.edges.add(edge)
+
+def generate(size, nodenames):
+    graph = generate_nodes(size, nodenames)
+    generate_edges(graph, nodenames)
+    return graph
+
+
 def parse(filename):
     """ Parse file into a mapping from name to Node object. """
 
@@ -54,8 +85,9 @@ def graphviz(filename, nodes):
     f.write("digraph G {\n")
     for node in nodes:
         for edge in node.edges:
-            f.write("\t{src} -> {dst}".format(src=label(edge.src), dst=label(edge.dst)))
-            if edge.cost > 0:
-                f.write("[label=\"{}\"]".format(edge.cost))
-            f.write("\n")
+            if edge.src.cost >= 0 and edge.dst.cost >= 0:
+                f.write("\t{src} -> {dst}".format(src=label(edge.src), dst=label(edge.dst)))
+                if edge.cost > 0:
+                    f.write("[label=\"{}\"]".format(edge.cost))
+                f.write("\n")
     f.write("}\n")
