@@ -19,3 +19,6 @@ dijkstra:
 		python dijkstra.py "New York, New York"
 		dot -Tpdf a.dot > a.pdf
 		open a.pdf
+
+test:
+		python -m unittest test_graph

@@ -1,5 +1,9 @@
 import sys
+import random
 import heapq
+
+import graph
+import prims
 
 
 def difference((weight, length)):
@@ -40,9 +44,24 @@ if __name__ == '__main__':
     question = sys.argv[1]
     filename = sys.argv[2]
     if question == '1':
-        
+
         weighted_sum(filename, difference)
     elif question == '2':
         weighted_sum(filename, quota)
+    elif question == '3':
+        _graph = graph.parse(filename, undirected=True)
+        _start_node = _graph[random.sample(_graph, 1)[0]]
+        mst = prims.spanning_tree(set(_graph.values()), _start_node)
+
+        edges = set()
+        for node in mst:
+            [edges.add(e) for e in node.edges]
+        edge_sum = 0
+        for e in edges:
+            if e.spanning:
+                edge_sum += e.cost
+
+        graph.graphviz(filename.replace('.txt', '.neato'), edges)
+        print edge_sum
     else:
         print 'Unknown assignment: ' + question
