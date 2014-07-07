@@ -21,4 +21,4 @@ dijkstra:
 		open a.pdf
 
 test:
-		python -m unittest test_graph
+		python -m unittest test_graph test_unionfind

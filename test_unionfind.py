@@ -3,7 +3,7 @@ import unittest
 from unionfind import UnionFind
 from graphs import Node
 
-class TestGraph(unittest.TestCase):
+class TestUnionFind(unittest.TestCase):
     def test_setup(self):
         u = UnionFind()
         self.assertEqual(dict(), u.leader)
