@@ -1,10 +1,11 @@
+# coding=utf-8
 import sys
 import random
 import heapq
 
-import graph
+import graphs
 import prims
-
+import kruskals
 
 def difference((weight, length)):
     return (-weight + length, -weight, -length)
@@ -49,7 +50,7 @@ if __name__ == '__main__':
     elif question == '2':
         weighted_sum(filename, quota)
     elif question == '3':
-        _graph = graph.parse(filename, undirected=True)
+        _graph = graphs.parse(filename, undirected=True)
         _start_node = _graph.random_node()
         mst = prims.spanning_tree(_graph, _start_node)
 
@@ -58,7 +59,20 @@ if __name__ == '__main__':
             if e.spanning:
                 edge_sum += e.cost
 
-        graph.graphviz(filename.replace('.txt', '.neato'), _graph.edges)
+        graphs.graphviz(filename.replace('.txt', '.neato'), _graph.edges)
         print edge_sum
+    elif question == '4':
+        _graph = graphs.parse(filename, undirected=True)
+        _start_node = _graph.random_node()
+        mst = kruskals.spanning_tree(_graph)
+
+        edge_sum = 0
+        for e in _graph.edges:
+            if e.spanning:
+                edge_sum += e.cost
+
+        graphs.graphviz(filename.replace('.txt', '.neato'), _graph.edges)
+        print edge_sum
+
     else:
         print 'Unknown assignment: ' + question
