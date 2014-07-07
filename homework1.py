@@ -50,18 +50,15 @@ if __name__ == '__main__':
         weighted_sum(filename, quota)
     elif question == '3':
         _graph = graph.parse(filename, undirected=True)
-        _start_node = _graph[random.sample(_graph, 1)[0]]
-        mst = prims.spanning_tree(set(_graph.values()), _start_node)
+        _start_node = _graph.random_node()
+        mst = prims.spanning_tree(_graph, _start_node)
 
-        edges = set()
-        for node in mst:
-            [edges.add(e) for e in node.edges]
         edge_sum = 0
-        for e in edges:
+        for e in _graph.edges:
             if e.spanning:
                 edge_sum += e.cost
 
-        graph.graphviz(filename.replace('.txt', '.neato'), edges)
+        graph.graphviz(filename.replace('.txt', '.neato'), _graph.edges)
         print edge_sum
     else:
         print 'Unknown assignment: ' + question

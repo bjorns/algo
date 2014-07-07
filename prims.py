@@ -1,5 +1,6 @@
 # coding=utf-8
 import sys
+from copy import copy
 import random
 import heapq
 import heap
@@ -21,9 +22,9 @@ def cost_of(node, X):
     return ret
 
 
-def init_frontier(graph, X):
+def init_frontier(nodes, X):
     frontier = []
-    for node in graph:
+    for node in nodes:
         heapq.heappush(frontier, (cost_of(node, X), node))
     return frontier
 
@@ -53,8 +54,11 @@ def delete_entry(entry, frontier):
 def spanning_tree(graph, start_node):
     print "Start node: {}".format(start_node)
     X = set([start_node])
-    graph.remove(start_node)
-    frontier = init_frontier(graph, X)
+
+    nodes = copy(graph.get_nodes())
+    nodes.remove(start_node)
+
+    frontier = init_frontier(nodes, X)
     pos_index = index_positions(frontier)
     print "Frontier: {}".format( frontier)
     while len(frontier) > 0:

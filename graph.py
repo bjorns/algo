@@ -4,6 +4,23 @@ from datetime import datetime
 
 random.seed(datetime.now())
 
+class Graph(object):
+    """ A Adjecency list implementation of a graph. """
+    def __init__(self):
+        self.nodes = dict()
+        self.edges = set()
+
+    def add_node(self, node):
+        assert node.name not in self.nodes
+        self.nodes[node.name] = node
+
+    def get_nodes(self):
+        return set(self.nodes.values())
+
+    def random_node(self):
+        name = random.sample(self.nodes, 1)[0]
+        return self.nodes[name]
+
 class Node(object):
     """ Vertex in graph. """
 
@@ -83,26 +100,27 @@ def _parse_line(line):
     return v0, v1, cost
 
 
-def _get_node(nodes, name):
-    if name in nodes:
-        return nodes[name]
+def _get_node(graph, name):
+    if name in graph.nodes:
+        return graph.nodes[name]
     else:
         node = Node(name)
-        nodes[name] = node
+        graph.add_node(node)
         return node
 
 
 def parse(filename, undirected=False):
     """ Parse file into a mapping from name to Node object. """
-    nodes = dict()
+    graph = Graph()
+
     f = open(filename, 'r')
     x,y = f.readline().split(' ')
     num_nodes, num_edges = int(x),int(y)
     for _ in range(num_edges):
         line = f.readline().strip()
         v0_name, v1_name, cost = _parse_line(line.strip())
-        v0 = _get_node(nodes, v0_name)
-        v1 = _get_node(nodes, v1_name)
+        v0 = _get_node(graph, v0_name)
+        v1 = _get_node(graph, v1_name)
         if undirected:
             edge = UndirectedEdge(v0, v1, cost)
             v0.edges.add(edge)
@@ -110,7 +128,8 @@ def parse(filename, undirected=False):
         else:
             edge = Edge(v0, v1, cost)
             v0.edges.add(edge)
-    return nodes
+        graph.edges.add(edge)
+    return graph
 
 
 def label(node):
