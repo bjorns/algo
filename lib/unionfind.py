@@ -7,6 +7,9 @@ class UnionFind(object):
         self.clusters = 0
 
     def add(self, node, leader=None):
+        assert node not in self.leader
+        assert node not in self.followers
+
         if leader is None:
             leader = node
 
@@ -15,12 +18,16 @@ class UnionFind(object):
         self.clusters += 1
 
     def union(self, v0, v1):
-        assert v0 != v1
-        assert v0 == self.leader[v0]
-        assert v1 == self.leader[v1]
+        v0 = self.leader[v0]
+        v1 = self.leader[v1]
+        if v0 == v1:
+            return
 
-        src = v1
-        dst = v0
+        f0 = len(self.followers[v0])
+        f1 = len(self.followers[v1])
+
+        src = v0 if min(f0,f1) == f0 else v1
+        dst = v1 if src == v0 else v0
 
         for node in self.followers[src]:
             self.leader[node] = dst

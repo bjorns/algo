@@ -1,11 +1,18 @@
 # coding=utf-8
+import os
 import sys
 import random
 import heapq
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/lib')
+
 import graphs
 import prims
 import kruskals
+
+
+
+
 
 def difference((weight, length)):
     return (-weight + length, -weight, -length)
