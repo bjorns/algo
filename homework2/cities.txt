@@ -1,0 +1,7 @@
+4
+Piteå Stockholm 100
+Piteå Linköping 130
+Piteå Norrköping 125
+Stockholm Norrköping 20
+Stockholm Linköping 25
+Linköping Norrköping 5
