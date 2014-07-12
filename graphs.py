@@ -109,13 +109,22 @@ def _get_node(graph, name):
         return node
 
 
+def read_header(f):
+    line = f.readline().strip().split(' ')
+    if len(line) == 2:
+        x,y = line
+        nodes, edges = int(x), int(y)
+    elif len(line) == 1:
+        nodes = int(line[0])
+        edges = (nodes**2 - nodes) / 2
+    return nodes, edges
+
 def parse(filename, undirected=False):
     """ Parse file into a mapping from name to Node object. """
     graph = Graph()
 
     f = open(filename, 'r')
-    x,y = f.readline().split(' ')
-    num_nodes, num_edges = int(x),int(y)
+    num_nodes, num_edges = read_header(f)
     for _ in range(num_edges):
         line = f.readline().strip()
         v0_name, v1_name, cost = _parse_line(line.strip())

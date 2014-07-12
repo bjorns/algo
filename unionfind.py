@@ -4,6 +4,7 @@ class UnionFind(object):
     def __init__(self):
         self.leader = dict()
         self.followers = dict()
+        self.clusters = 0
 
     def add(self, node, leader=None):
         if leader is None:
@@ -11,8 +12,10 @@ class UnionFind(object):
 
         self.leader[node] = leader
         self.followers.setdefault(leader, set()).add(node)
+        self.clusters += 1
 
     def union(self, v0, v1):
+        assert v0 != v1
         assert v0 == self.leader[v0]
         assert v1 == self.leader[v1]
 
@@ -24,6 +27,7 @@ class UnionFind(object):
             self.followers[dst].add(node)
         del self.followers[src]
         self.leader[src] = dst
+        self.clusters -= 1
         return dst
 
     def find(self, node):

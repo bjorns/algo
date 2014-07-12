@@ -20,7 +20,6 @@ def spanning_tree(graph):
     edges = heapify(graph.edges)
     X = set()
     u = UnionFind()
-
     [u.add(node) for node in graph.nodes.values()]
 
 
