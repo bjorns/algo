@@ -3,10 +3,11 @@ all: quicksort redblack.png
 clean:
 	rm -f redblack.png redblack.dot redblack quicksort
 
-quicksort: quicksort.c
-	gcc -Wall --std=c99 -o quicksort quicksort.c
+quicksort: legacy/quicksort.c
+	mkdir -p bin
+	gcc -Wall --std=c99 -o bin/quicksort $^
 
-redblack: redblack.c
+redblack: legacy/redblack.c
 	gcc -Wall --std=c99 -o $@ $^
 
 redblack.dot: redblack
@@ -21,4 +22,6 @@ dijkstra:
 		open a.pdf
 
 test:
-		python -m unittest test_graph test_unionfind
+		PYTHONPATH=lib:test python -m unittest test.test_graphs test.test_unionfind
+
+.PHONY: test

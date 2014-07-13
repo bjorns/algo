@@ -11,43 +11,40 @@ class TestUnionFind(unittest.TestCase):
 
     def test_add_node(self):
         u = UnionFind()
-        leader = Node("leader")
         foo = Node("foo")
         bar = Node("bar")
         baz = Node("baz")
-        u.add(foo, leader)
-        u.add(bar, leader)
-        u.add(baz, leader)
+        u.add(foo)
+        u.add(bar)
+        u.add(baz)
         self.assertEqual(3, len(u.leader))
-        self.assertEqual(leader, u.leader[foo])
-        self.assertEqual(leader, u.leader[bar])
-        self.assertEqual(leader, u.leader[baz])
+        self.assertEqual(foo, u.leader[foo])
+        self.assertEqual(bar, u.leader[bar])
+        self.assertEqual(baz, u.leader[baz])
 
-        self.assertEqual(1, len(u.followers))
-        self.assertEqual({foo, bar, baz}, u.followers[leader])
+        self.assertEqual(3, len(u.followers))
+        self.assertEqual(set(), u.followers[foo])
+        self.assertEqual(set(), u.followers[bar])
+        self.assertEqual(set(), u.followers[baz])
 
     def test_find(self):
         u = UnionFind()
-        leader = Node("leader")
         foo = Node("foo")
-        u.add(foo, leader)
-        self.assertEqual(leader, u.find(foo))
+        u.add(foo)
+        self.assertEqual(foo, u.find(foo))
 
     def test_union(self):
         u = UnionFind()
-        leader0 = Node("leader0")
         foo = Node("foo")
-        u.add(foo, leader0)
+        u.add(foo)
 
-
-        leader1 = Node("leader0")
         bar = Node("bar")
-        u.add(bar, leader1)
+        u.add(bar)
 
-        self.assertEqual(leader0, u.find(foo))
-        self.assertEqual(leader1, u.find(bar))
+        self.assertEqual(foo, u.find(foo))
+        self.assertEqual(bar, u.find(bar))
 
-        u.union(leader0, leader1)
+        u.union(foo, bar)
 
-        self.assertEqual(leader0, u.find(foo))
-        self.assertEqual(leader0, u.find(bar))
+        self.assertEqual(bar, u.find(foo))
+        self.assertEqual(bar, u.find(bar))

@@ -6,15 +6,12 @@ class UnionFind(object):
         self.followers = dict()
         self.clusters = 0
 
-    def add(self, node, leader=None):
+    def add(self, node):
         assert node not in self.leader
         assert node not in self.followers
 
-        if leader is None:
-            leader = node
-
-        self.leader[node] = leader
-        self.followers.setdefault(leader, set()).add(node)
+        self.leader[node] = node
+        self.followers.setdefault(node, set())
         self.clusters += 1
 
     def union(self, v0, v1):
