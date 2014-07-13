@@ -5,9 +5,6 @@ use std::string::String;
 use std::os;
 
 
-
-
-
 mod unionfind;
 
 fn atoi(ch: char) -> uint {
@@ -45,12 +42,37 @@ fn parse_numbers(file: File) -> Vec<uint> {
         if lineno != 0 {
             let s = line.unwrap();
             let number = to_uint(s.clone());
+            ret.push(number);
         }
         lineno += 1
     }
     return ret;
 }
 
+fn init_unionfind(data: &Vec<uint>) -> unionfind::UnionFind<uint> {
+    let mut uf: unionfind::UnionFind<uint> = unionfind::new();
+    for x in data.iter() {
+        uf.add(x);
+    };
+    return uf;
+}
+
+fn hamming_neighbours(x: uint, radix: uint) -> Vec<uint> {
+    let mut ret: Vec<uint> = vec!();
+    for i in range(0, radix) {
+        let bit = 1 << i;
+        ret.push(x | bit);
+        ret.push_all(hamming_neighbours(x | bit, radix).as_slice());
+    }
+    return ret;
+}
+
+fn merge_neighbours(uf: unionfind::UnionFind<uint>, data: &Vec<uint>) {
+    for x in data.iter() {
+        let n = hamming_neighbours(*x, 24);
+
+    }
+}
 
 fn main() {
     let args = os::args();
@@ -63,6 +85,9 @@ fn main() {
     let mut file = File::open(&path);
     if file.is_ok() {
         let data = parse_numbers(file.ok().unwrap());
+        let uf = init_unionfind(&data);
+
+        merge_neighbours(uf, &data);
     }
 
 
