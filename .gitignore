@@ -6,3 +6,4 @@ redblack
 *.pyc
 *.dot
 *.pdf
+rust/hammingcluster
