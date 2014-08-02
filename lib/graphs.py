@@ -94,8 +94,8 @@ def generate(size, nodenames, undirected=False):
 def _parse_line(line):
     relation = line.split(' ')
     assert len(relation) == 3
-    v0 = relation[0]
-    v1 = relation[1]
+    v0 = int(relation[0])
+    v1 = int(relation[1])
     cost = int(relation[2])
     return v0, v1, cost
 
@@ -139,6 +139,17 @@ def parse(filename, undirected=False):
             v0.edges.add(edge)
         graph.edges.add(edge)
     return graph
+
+
+def parse_matrix(f):
+    num_nodes, num_edges = read_header(f)
+    print num_nodes
+    G = [[None for _ in range(num_nodes)] for _ in range(num_nodes)]
+    for _ in range(num_edges):
+        line = f.readline().strip()
+        v0, v1, cost = _parse_line(line.strip())
+        G[v0-1][v1-1] = cost
+    return G
 
 
 def label(node):
