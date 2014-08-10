@@ -27,6 +27,7 @@ class Node(object):
     def __init__(self, name):
         self.name = name
         self.edges = set()
+        self.incoming_edges = set()
         self.cost = -1
 
     def __str__(self):
@@ -80,6 +81,7 @@ def generate_edges(graph, nodenames, undirected=False):
             cost = random.randint(1, 20)
             edge = Edge(src, cost, dst)
             src.edges.add(edge)
+            dst.incoming_edges.add(edge)
             if undirected:
                 edge = Edge(dst, cost, src)
                 dst.edges.add(edge)
@@ -137,6 +139,7 @@ def parse(filename, undirected=False):
         else:
             edge = Edge(v0, v1, cost)
             v0.edges.add(edge)
+            v1.incoming_edges.add(edge)
         graph.edges.add(edge)
     return graph
 
@@ -171,7 +174,6 @@ def dot_format(f, nodes):
 
 def neato_format(f, edges):
     f.write("graph G {\n")
-
     for edge in edges:
         f.write("\t{src} -- {dst}".format(src=label(edge.v0), dst=label(edge.v1)))
         f.write("[label=\"{}\"]".format(edge.cost))
@@ -180,7 +182,6 @@ def neato_format(f, edges):
             f.write("\t{src} -- {dst}".format(src=label(edge.v0), dst=label(edge.v1)))
             f.write("[color=\"red\"]")
             f.write("\n")
-
     f.write("}\n")
 
 
